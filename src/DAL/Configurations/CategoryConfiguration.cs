@@ -8,7 +8,11 @@ namespace DAL.Configuration
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            // Intentionally left empty - configuration can be added later
+            builder.HasKey(c => c.Id);
+            
+            builder.Property(c => c.Name).IsRequired().HasMaxLength(100);
+
+            builder.Property(c => c.Description).HasMaxLength(500);
         }
     }
 }
