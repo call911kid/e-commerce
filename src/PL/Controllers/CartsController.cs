@@ -1,6 +1,7 @@
 using BLL.DTOs.Cart;
 using BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using PL.Responses;
 
 namespace PL.Controllers
 {
@@ -16,24 +17,24 @@ namespace PL.Controllers
         }
 
         [HttpGet("{customerId:int}")]
-        public async Task<ActionResult<CartDto>> GetCart(int customerId)
+        public async Task<ActionResult<ApiResponse<CartDto>>> GetCart(int customerId)
         {
             var cart = await _cartService.GetCartAsync(customerId);
-            return Ok(cart);
+            return Ok(ApiResponse.Success(cart));
         }
 
         [HttpPost("add-to-cart")]
-        public async Task<IActionResult> AddItem([FromBody] AddToCartDto dto)
+        public async Task<ActionResult<ApiResponse>> AddItem([FromBody] AddToCartDto dto)
         {
             await _cartService.AddItemAsync(dto.CustomerId, dto.ProductId, dto.Quantity);
-            return Ok();
+            return Ok(ApiResponse.Success());
         }
 
         [HttpDelete("clear-cart/{customerId:int}")]
-        public async Task<IActionResult> ClearCart(int customerId)
+        public async Task<ActionResult<ApiResponse>> ClearCart(int customerId)
         {
             await _cartService.ClearCartAsync(customerId);
-            return Ok();
+            return Ok(ApiResponse.Success());
         }
     }
 }
