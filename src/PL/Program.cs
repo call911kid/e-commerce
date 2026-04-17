@@ -2,7 +2,7 @@
 using DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using PL.Middlewares;
-
+using DAL.DI;
 namespace PL
 {
     public class Program
@@ -18,6 +18,8 @@ namespace PL
             builder.Services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
             );
+
+            builder.Services.AddDAL(builder.Configuration.GetConnectionString("DefaultConnection"));
 
             var app = builder.Build();
 
