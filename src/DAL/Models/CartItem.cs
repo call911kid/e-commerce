@@ -4,16 +4,16 @@ namespace DAL.Models
 {
     public class CartItem
     {
-        public CartItem(Product product, int quantity)
-        {
-            Product = product ?? throw new ArgumentNullException(nameof(product));
-            Quantity = quantity > 0 ? quantity : throw new ArgumentOutOfRangeException(nameof(quantity));
-        }
+        public int Id { get; set; }
 
-        public Product Product { get; set; }
+        public int CartId { get; set; }
+        public virtual Cart Cart { get; set; }
+
+        public int ProductId { get; set; }
+        public virtual Product Product { get; set; }
 
         public int Quantity { get; set; }
 
-        public decimal TotalPrice => Product.Price * Quantity;
+        public decimal UnitPrice { get; set; }
     }
 }
