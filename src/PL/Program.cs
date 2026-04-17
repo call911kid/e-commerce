@@ -1,4 +1,8 @@
 
+using DAL.Context;
+using Microsoft.EntityFrameworkCore;
+using PL.Middlewares;
+
 namespace PL
 {
     public class Program
@@ -13,6 +17,10 @@ namespace PL
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
+            builder.Services.AddDbContext<ApplicationDbContext>(
+                options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+            );
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -20,6 +28,8 @@ namespace PL
             {
                 app.MapOpenApi();
             }
+
+            
 
             app.UseHttpsRedirection();
 
