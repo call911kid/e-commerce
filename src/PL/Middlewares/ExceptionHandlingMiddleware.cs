@@ -1,5 +1,6 @@
 using Common.Exceptions;
 using FluentValidation;
+using PL.Responses;
 using System.Net;
 
 namespace PL.Middlewares
@@ -30,20 +31,12 @@ namespace PL.Middlewares
         public async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             var statusCode = GetStatusCode(exception);
+            var message = GetMessage(exception);
+            var errors = GetErrors(exception);
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)statusCode;
-
-            var response = new
-            {
-                StatusCode = context.Response.StatusCode,
-                Message = _env.IsDevelopment() ? exception.Message : "An error occurred while processing your request.",
-                ErrorCode = GetErrorCode(exception),
-                Errors = GetValidationErrors(exception),
-                StackTrace = _env.IsDevelopment() ? exception.StackTrace : null
-            };
-
-            await context.Response.WriteAsJsonAsync(response);
+            await context.Response.WriteAsJsonAsync(ApiResponse.Failure(message, errors));
         }
 
         private static HttpStatusCode GetStatusCode(Exception exception) => exception switch
@@ -59,28 +52,18 @@ namespace PL.Middlewares
             _ => HttpStatusCode.InternalServerError
         };
 
-        private static string GetErrorCode(Exception exception) => exception switch
+        private string GetMessage(Exception exception) => exception switch
         {
-            ValidationException => "VALIDATION_ERROR",
-            EntityNotFoundException => "ENTITY_NOT_FOUND",
-            ProductNotFoundException => "PRODUCT_NOT_FOUND",
-            CustomerNotFoundException => "CUSTOMER_NOT_FOUND",
-            InvalidCartException => "INVALID_CART",
-            InsufficientStockException => "INSUFFICIENT_STOCK",
-            OrderProcessingException => "ORDER_PROCESSING_FAILED",
-            DomainException => "DOMAIN_ERROR",
-            _ => "INTERNAL_SERVER_ERROR"
+            ValidationException => "Validation failed.",
+            _ => _env.IsDevelopment() ? exception.Message : "An error occurred while processing your request."
         };
 
-        private static object? GetValidationErrors(Exception exception) => exception switch
+        private static List<string> GetErrors(Exception exception) => exception switch
         {
             ValidationException validationException => validationException.Errors
-                .Select(error => new
-                {
-                    error.PropertyName,
-                    error.ErrorMessage
-                }),
-            _ => null
+                .Select(error => error.ErrorMessage)
+                .ToList(),
+            _ => new List<string>()
         };
     }
 }
