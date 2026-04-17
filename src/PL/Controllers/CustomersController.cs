@@ -1,6 +1,7 @@
 using BLL.DTOs.Customer;
 using BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PL.Controllers
 {
@@ -15,6 +16,7 @@ namespace PL.Controllers
             _customerService = customerService;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<CustomerDto>> GetById(int id)
         {

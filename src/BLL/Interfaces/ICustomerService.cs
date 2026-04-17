@@ -6,5 +6,6 @@ namespace BLL.Interfaces
     {
         Task<CustomerDto> GetByIdAsync(int id);
         Task<CustomerDto> CreateAsync(CreateCustomerDto dto);
+        Task<CustomerDto?> LoginAsync(string email, string password);
     }
 }

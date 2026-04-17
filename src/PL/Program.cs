@@ -7,6 +7,7 @@ using PL.Middlewares;
 using DAL.DI;
 using BLL.DependencyInjection;
 using PL.Validators;
+using Microsoft.AspNetCore.Authentication.Cookies;
 namespace PL
 {
     public class Program
@@ -20,6 +21,17 @@ namespace PL
             builder.Services.AddOpenApi();
             builder.Services.AddFluentValidationAutoValidation();
             builder.Services.AddValidatorsFromAssemblyContaining<CreateCustomerDtoValidator>();
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.Cookie.Name = "EcommerceAuthCookie";
+                    options.Events.OnRedirectToLogin = context =>
+                    {
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        return Task.CompletedTask;
+                    };
+                });
 
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
                 ?? throw new Exception("unable to get connection string");
@@ -43,6 +55,7 @@ namespace PL
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();
