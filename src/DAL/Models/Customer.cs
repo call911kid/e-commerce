@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace DAL.Models
 {
-    public class User
+    public class Customer
     {
         public int Id { get; set; }
 
@@ -16,7 +16,7 @@ namespace DAL.Models
 
         public virtual ICollection<Order> Orders { get; set; }
 
-        public User()
+        public Customer()
         {
             Orders = new HashSet<Order>();
         }
