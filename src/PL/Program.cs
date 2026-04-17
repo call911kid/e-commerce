@@ -3,6 +3,7 @@ using DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using PL.Middlewares;
 using DAL.DI;
+using BLL.DependencyInjection;
 namespace PL
 {
     public class Program
@@ -15,11 +16,15 @@ namespace PL
             
             builder.Services.AddOpenApi();
 
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+                ?? throw new Exception("unable to get connection string");
+
             builder.Services.AddDbContext<ApplicationDbContext>(
-                options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+                options => options.UseSqlServer(connectionString)
             );
 
-            builder.Services.AddDAL(builder.Configuration.GetConnectionString("DefaultConnection"));
+            builder.Services.AddDAL(connectionString);
+            builder.Services.AddBLLServices();
 
             var app = builder.Build();
 
