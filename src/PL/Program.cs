@@ -1,9 +1,12 @@
 
 using DAL.Context;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using PL.Middlewares;
 using DAL.DI;
 using BLL.DependencyInjection;
+using PL.Validators;
 namespace PL
 {
     public class Program
@@ -15,6 +18,8 @@ namespace PL
             builder.Services.AddControllers();
             
             builder.Services.AddOpenApi();
+            builder.Services.AddFluentValidationAutoValidation();
+            builder.Services.AddValidatorsFromAssemblyContaining<CreateCustomerDtoValidator>();
 
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
                 ?? throw new Exception("unable to get connection string");

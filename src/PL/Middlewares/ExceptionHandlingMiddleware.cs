@@ -1,4 +1,5 @@
 using Common.Exceptions;
+using FluentValidation;
 using System.Net;
 
 namespace PL.Middlewares
@@ -38,6 +39,7 @@ namespace PL.Middlewares
                 StatusCode = context.Response.StatusCode,
                 Message = _env.IsDevelopment() ? exception.Message : "An error occurred while processing your request.",
                 ErrorCode = GetErrorCode(exception),
+                Errors = GetValidationErrors(exception),
                 StackTrace = _env.IsDevelopment() ? exception.StackTrace : null
             };
 
@@ -46,6 +48,7 @@ namespace PL.Middlewares
 
         private static HttpStatusCode GetStatusCode(Exception exception) => exception switch
         {
+            ValidationException => HttpStatusCode.BadRequest,
             EntityNotFoundException => HttpStatusCode.NotFound,
             ProductNotFoundException => HttpStatusCode.NotFound,
             CustomerNotFoundException => HttpStatusCode.NotFound,
@@ -58,6 +61,7 @@ namespace PL.Middlewares
 
         private static string GetErrorCode(Exception exception) => exception switch
         {
+            ValidationException => "VALIDATION_ERROR",
             EntityNotFoundException => "ENTITY_NOT_FOUND",
             ProductNotFoundException => "PRODUCT_NOT_FOUND",
             CustomerNotFoundException => "CUSTOMER_NOT_FOUND",
@@ -66,6 +70,17 @@ namespace PL.Middlewares
             OrderProcessingException => "ORDER_PROCESSING_FAILED",
             DomainException => "DOMAIN_ERROR",
             _ => "INTERNAL_SERVER_ERROR"
+        };
+
+        private static object? GetValidationErrors(Exception exception) => exception switch
+        {
+            ValidationException validationException => validationException.Errors
+                .Select(error => new
+                {
+                    error.PropertyName,
+                    error.ErrorMessage
+                }),
+            _ => null
         };
     }
 }
