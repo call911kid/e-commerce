@@ -8,8 +8,12 @@ namespace DAL.Models
 
         public string Name { get; set; } = null!;
 
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
-        public ICollection<Product> Products { get; set; } = new List<Product>();
+        public virtual ICollection<Product> Products { get; set; }
+        public Category()
+        {
+            Products = new HashSet<Product>();
+        }
     }
 }
