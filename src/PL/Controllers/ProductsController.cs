@@ -1,6 +1,7 @@
 using BLL.DTOs.Product;
 using BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using PL.Responses;
 
 namespace PL.Controllers
 {
@@ -15,11 +16,11 @@ namespace PL.Controllers
             _productService = productService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<ProductDto>> GetById(int id)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<ApiResponse<ProductDto>>> GetById(int id)
         {
             var product = await _productService.GetByIdAsync(id);
-            return Ok(product);
+            return Ok(ApiResponse.Success(product));
         }
     }
 }

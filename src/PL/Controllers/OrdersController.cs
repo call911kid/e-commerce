@@ -1,6 +1,7 @@
 using BLL.DTOs.Order;
 using BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using PL.Responses;
 
 namespace PL.Controllers
 {
@@ -16,10 +17,10 @@ namespace PL.Controllers
         }
 
         [HttpPost("create-order")]
-        public async Task<ActionResult<OrderDto>> Create([FromBody] CreateOrderDto dto)
+        public async Task<ActionResult<ApiResponse<OrderDto>>> Create([FromBody] CreateOrderDto dto)
         {
             var order = await _orderService.CreateOrderAsync(dto.CustomerId);
-            return Ok(order);
+            return Ok(ApiResponse.Success(order));
         }
     }
 }

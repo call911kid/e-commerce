@@ -21,14 +21,14 @@ namespace PL.Controllers
         public async Task<ActionResult<CustomerDto>> GetById(int id)
         {
             var customer = await _customerService.GetByIdAsync(id);
-            return Ok(customer);
+            return Ok(ApiResponse.Success(customer));
         }
 
         [HttpPost]
-        public async Task<ActionResult<CustomerDto>> Create([FromBody] CreateCustomerDto dto)
+        public async Task<ActionResult<ApiResponse<CustomerDto>>> Create([FromBody] CreateCustomerDto dto)
         {
             var customer = await _customerService.CreateAsync(dto);
-            return Ok();
+            return Ok(ApiResponse.Success(customer));
         }
     }
 }
