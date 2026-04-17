@@ -26,14 +26,14 @@ namespace PL.Controllers
         public async Task<IActionResult> AddItem([FromBody] AddToCartDto dto)
         {
             await _cartService.AddItemAsync(dto.CustomerId, dto.ProductId, dto.Quantity);
-            return NoContent();
+            return Ok();
         }
 
         [HttpDelete("clear-cart/{customerId:int}")]
         public async Task<IActionResult> ClearCart(int customerId)
         {
             await _cartService.ClearCartAsync(customerId);
-            return NoContent();
+            return Ok();
         }
     }
 }

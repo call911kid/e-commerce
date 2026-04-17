@@ -26,7 +26,7 @@ namespace PL.Controllers
         public async Task<ActionResult<CustomerDto>> Create([FromBody] CreateCustomerDto dto)
         {
             var customer = await _customerService.CreateAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = customer.Id }, customer);
+            return Ok();
         }
     }
 }
