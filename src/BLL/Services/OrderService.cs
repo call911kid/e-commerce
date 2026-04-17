@@ -1,5 +1,5 @@
 using BLL.DTOs.Order;
-using BLL.Exceptions;
+using Common.Exceptions;
 using BLL.Interfaces;
 using BLL.Logging;
 using BLL.Strategies.Discount;
@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace BLL.Services
 {
-    public class OrderService : IOrderService
+    internal class OrderService : IOrderService
     {
         private readonly IUnitOfWork _uow;
         private readonly ICartService _cartService;

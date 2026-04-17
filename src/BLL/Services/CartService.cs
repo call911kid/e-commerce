@@ -1,5 +1,5 @@
 using BLL.DTOs.Cart;
-using BLL.Exceptions;
+using Common.Exceptions;
 using BLL.Interfaces;
 using DAL.Interfaces;
 using DAL.Models;
@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace BLL.Services
 {
-    public class CartService : ICartService
+    internal class CartService : ICartService
     {
         private readonly IUnitOfWork _uow;
         public CartService(IUnitOfWork uow) => _uow = uow;

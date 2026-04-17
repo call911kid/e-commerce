@@ -1,12 +1,12 @@
 using BLL.DTOs.Product;
-using BLL.Exceptions;
+using Common.Exceptions;
 using BLL.Interfaces;
 using DAL.Interfaces;
 using DAL.Models;
 
 namespace BLL.Services
 {
-    public class ProductService : IProductService
+    internal class ProductService : IProductService
     {
         private readonly IUnitOfWork _uow;
         public ProductService(IUnitOfWork uow) => _uow = uow;

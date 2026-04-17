@@ -1,4 +1,4 @@
-namespace BLL.Exceptions
+namespace Common.Exceptions
 {
     public class ProductNotFoundException : DomainException
     {

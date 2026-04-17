@@ -1,12 +1,12 @@
 using BLL.DTOs.Customer;
-using BLL.Exceptions;
+using Common.Exceptions;
 using BLL.Interfaces;
 using DAL.Interfaces;
 using DAL.Models;
 
 namespace BLL.Services
 {
-    public class CustomerService : ICustomerService
+    internal class CustomerService : ICustomerService
     {
         private readonly IUnitOfWork _uow;
         public CustomerService(IUnitOfWork uow) => _uow = uow;
