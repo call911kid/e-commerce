@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 namespace DAL.Repository
 {
-    internal class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
 

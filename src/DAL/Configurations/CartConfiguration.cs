@@ -19,13 +19,6 @@ namespace DAL.Configuration
                    .WithMany()
                    .HasForeignKey(c => c.CustomerId)
                    .OnDelete(DeleteBehavior.Cascade);
-
-
-            builder.HasMany(c => c.Items)
-                   .WithOne(i => i.Cart)
-                   .HasForeignKey(i => i.CartId)
-                   .OnDelete(DeleteBehavior.Cascade);
-
         }
     }
 }
