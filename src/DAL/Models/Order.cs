@@ -9,9 +9,9 @@ namespace DAL.Models
         public int Id { get; set; }
 
         public int CustomerId { get; set; }
-        public virtual Customer Customer { get; set; } = null!;
+        public virtual Customer Customer { get; set; }
 
-        public DateTime OrderDate { get; set; } = DateTime.UtcNow;
+        public DateTime OrderDate { get; set; }
 
         public decimal SubTotal { get; set; }
         public decimal DiscountAmount { get; set; }
