@@ -17,6 +17,8 @@ Release/
 *.env
 appsettings.json
 
+#Logs
+*.log
 
 # Publish Outputs
 [Pp]ublish/
