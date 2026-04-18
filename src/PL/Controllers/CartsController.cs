@@ -1,10 +1,12 @@
 using BLL.DTOs.Cart;
 using BLL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PL.Responses;
 
 namespace PL.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class CartsController : ControllerBase
@@ -15,6 +17,7 @@ namespace PL.Controllers
         {
             _cartService = cartService;
         }
+
 
         [HttpGet("{customerId:int}")]
         public async Task<ActionResult<ApiResponse<CartDto>>> GetCart(int customerId)

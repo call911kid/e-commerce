@@ -1,11 +1,6 @@
 ﻿using DAL.Context;
 using DAL.Interfaces;
 using Microsoft.EntityFrameworkCore.Storage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 namespace DAL.Repository
 {
     public class UnitOfWork : IUnitOfWork
@@ -16,7 +11,7 @@ namespace DAL.Repository
         public ICategoryRepository Categories { get; private set; }
         public ICartRepository Cart { get; private set; }
         public ICartItemRepository CartItems { get; private set; }
-        public ICustomerRepository Customers { get; private set; } 
+        public ICustomerRepository Customers { get; private set; }
         public IOrderRepository Orders { get; private set; }
         public IOrderItemRepository OrderItems { get; private set; }
         public UnitOfWork(ApplicationDbContext context,

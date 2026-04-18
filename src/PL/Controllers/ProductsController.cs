@@ -1,5 +1,6 @@
 using BLL.DTOs.Product;
 using BLL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PL.Responses;
 
@@ -16,6 +17,7 @@ namespace PL.Controllers
             _productService = productService;
         }
 
+        [Authorize]
         [HttpGet("{id:int}")]
         public async Task<ActionResult<ApiResponse<ProductDto>>> GetById(int id)
         {
